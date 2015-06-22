@@ -1,20 +1,18 @@
 package net.hugopoi;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by hugo on 22/06/15.
  */
 public class MonoCipher implements ICipher {
 
-    private static final String ponct = " .,;:\"'";
+    private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + " .,;:\"'";
 
     public String generateKey(){
 
-        char[] charTable = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + ponct).toCharArray();
+        char[] charTable = alphabet.toCharArray();
         int currentIndex = charTable.length, randomIndex;
         char temporaryValue;
 
@@ -34,28 +32,39 @@ public class MonoCipher implements ICipher {
         return new String(charTable);
     }
 
-    private HashMap<Character, Character> buildConversionTable(String key){
+    private HashMap<Character, Character> buildConversionTable(String key, boolean reverse){
         HashMap<Character,Character> table = new HashMap<Character, Character>();
-        char el = 'A';
-        for(int i = 0 ; i < 26 ; i++){
-            table.put((char)(el+i), key.charAt(i));
-        }
-        for(int i=0 ; i < ponct.length() ; i++){
-            table.put(ponct.charAt(i), key.charAt(i+26));
+        for(int i=0 ; i < alphabet.length() ; i++){
+            if(reverse){
+                table.put(key.charAt(i), alphabet.charAt(i));
+            }else{
+                table.put(alphabet.charAt(i), key.charAt(i));
+            }
         }
         return table;
     }
 
     @Override
     public String encode(String message, String key) {
-        HashMap<Character,Character> table = buildConversionTable(key);
+        HashMap<Character,Character> table = buildConversionTable(key, false);
         StringBuilder stringBuilder = new StringBuilder();
-        
+
+        for (int i = 0 ; i < message.length(); i++){
+            stringBuilder.append(table.get(message.charAt(i)));
+        }
+
         return stringBuilder.toString();
     }
 
     @Override
     public String decode(String crypted, String key) {
-        return null;
+        HashMap<Character,Character> table = buildConversionTable(key, true);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0 ; i < crypted.length(); i++){
+            stringBuilder.append(table.get(crypted.charAt(i)));
+        }
+
+        return stringBuilder.toString();
     }
 }
