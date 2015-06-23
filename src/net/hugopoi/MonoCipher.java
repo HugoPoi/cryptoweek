@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  */
 public class MonoCipher implements ICipher {
 
-    private static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + " .,;:\"'";
+    public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + " .,;:\"'";
 
     public String generateKey(){
 
@@ -54,7 +54,7 @@ public class MonoCipher implements ICipher {
         }
 
         return stringBuilder.toString();
-    }
+    } //https://github.com/hugopoi/cryptoweek
 
     @Override
     public String decode(String crypted, String key) {
