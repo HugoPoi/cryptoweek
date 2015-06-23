@@ -67,4 +67,5 @@ public class MonoCipher implements ICipher {
 
         return stringBuilder.toString();
     }
+
 }
