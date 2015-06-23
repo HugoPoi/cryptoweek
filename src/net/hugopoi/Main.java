@@ -9,5 +9,8 @@ public class Main {
         String s = m.encode("FUCK LA NSA.", key);
         System.out.println(s);
         System.out.println(m.decode(s, key));
+
+        MonoEncodedAttack att = new MonoEncodedAttack();
+        att.findKey(s);
     }
 }
