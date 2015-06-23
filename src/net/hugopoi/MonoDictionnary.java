@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class MonoDictionnary {
 
-    public Map<String,Float> getDictionnary () throws Exception {
+    public Map<String,Float> getWord () throws Exception {
         Map<String, Float> listWord = new HashMap<>();
 
         File file = new File("listemot.txt");
@@ -24,5 +24,17 @@ public class MonoDictionnary {
             listWord.put(parts[0], Float.parseFloat(parts[1]));
         }
         return MapUtil.sortByValue(listWord);
+    }
+
+    public Map<String,Float> getLetter () throws Exception {
+        Map<String, Float> listLetter = new HashMap<>();
+        File file = new File("listelettre.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            String[] parts =line.split(";");
+            listLetter.put(parts[0], Float.parseFloat(parts[1]));
+        }
+        return MapUtil.sortByValue(listLetter);
     }
 }
