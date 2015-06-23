@@ -1,8 +1,10 @@
 package net.hugopoi;
 
+import static net.hugopoi.MapUtil.printFrequencies;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         MonoCipher m = new MonoCipher();
         String key = m.generateKey();
         System.out.println(key);
@@ -11,6 +13,8 @@ public class Main {
         System.out.println(m.decode(s, key));
 
         MonoEncodedAttack att = new MonoEncodedAttack();
+        MonoDictionnary md = new MonoDictionnary();
+
         att.findKey(s);
     }
 }

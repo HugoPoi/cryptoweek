@@ -1,6 +1,7 @@
 package net.hugopoi;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 
 /**
  * Created by hugo on 23/06/15.
@@ -26,4 +27,14 @@ public class MapUtil {
             return result;
         }
 
+    public static <K, V> void printFrequencies(Map<K, V> frequencies){
+
+        frequencies.forEach(new BiConsumer<K, V>() {
+            @Override
+            public void accept(K character, V integer) {
+                System.out.println(character+" : "+integer);
+            }
+        });
+
+    }
 }

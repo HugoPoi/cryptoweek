@@ -5,16 +5,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jonathan on 23/06/15.
  */
 public class MonoDictionnary {
 
-    public HashMap<String,Float> getDictionnary (File file) throws Exception {
-        HashMap<String, Float> listWord = new HashMap<>();
+    public Map<String,Float> getDictionnary () throws Exception {
+        Map<String, Float> listWord = new HashMap<>();
 
-        file = new File("listemot.txt");
+        File file = new File("listemot.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
         String line = null;
@@ -22,6 +23,6 @@ public class MonoDictionnary {
             String[] parts =line.split(";");
             listWord.put(parts[0], Float.parseFloat(parts[1]));
         }
-        return listWord;
+        return MapUtil.sortByValue(listWord);
     }
 }

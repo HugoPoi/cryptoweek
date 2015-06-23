@@ -3,6 +3,8 @@ package net.hugopoi;
 import java.util.*;
 import java.util.function.BiConsumer;
 
+import static net.hugopoi.MapUtil.printFrequencies;
+
 /**
  * Created by hugo on 23/06/15.
  */
@@ -11,6 +13,7 @@ public class MonoEncodedAttack {
     public ArrayList<String> findKey(String message){
         Map<Character, Integer> frequencies = getFrequencies(message);
         printFrequencies(frequencies);
+
 
         return null;
     }
@@ -30,14 +33,5 @@ public class MonoEncodedAttack {
         return MapUtil.sortByValue(frequencies);
     }
 
-    private void printFrequencies(Map<Character, Integer> frequencies){
 
-        frequencies.forEach(new BiConsumer<Character, Integer>() {
-            @Override
-            public void accept(Character character, Integer integer) {
-                System.out.println(character+" : "+integer);
-            }
-        });
-
-    }
 }
