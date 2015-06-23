@@ -28,7 +28,7 @@ public class MonoDictionnary {
 
     public static Map<Character,Float> getLetter () throws Exception {
         Map<Character, Float> listLetter = new HashMap<>();
-        File file = new File("listelettre.txt");
+        File file = new File("freqFR2.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = null;
         while ((line = reader.readLine()) != null) {

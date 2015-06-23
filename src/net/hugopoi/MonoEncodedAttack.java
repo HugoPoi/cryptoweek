@@ -8,9 +8,15 @@ import java.util.function.BiConsumer;
  */
 public class MonoEncodedAttack {
 
-    public ArrayList<String> findKey(String message) throws Exception{
-        Map<Character, Integer> frequencies = getFrequencies(message);
+    Map<String, Float> dic = null;
 
+    public MonoEncodedAttack() throws Exception{
+        dic = MonoDictionnary.getWord();
+    }
+
+    public ArrayList<String> findKey(String message) throws Exception{
+        Map<Character, Float> frequencies = getFrequencies(message);
+        //MapUtil.printFrequencies(frequencies);
         //Get french frenquencies stats
 
         Map<Character, Float> frequenciesFR = MonoDictionnary.getLetter();
@@ -18,25 +24,49 @@ public class MonoEncodedAttack {
         frequenciesFR.keySet().toArray(freqFR);
 
         //Get the most probable key
-        Map<Character,Character> buildKey = new HashMap<>();
-        frequencies.forEach(new BiConsumer<Character, Integer>() {
+        TreeMap<Float,SimpleEntryClonable<Character,Character>> buildKey = new TreeMap<>();
+        frequencies.forEach(new BiConsumer<Character, Float>() {
             int i = 0;
             @Override
-            public void accept(Character character, Integer integer) {
-                buildKey.put(character,freqFR[i++]);
+            public void accept(Character character, Float per) {
+
+                buildKey.put(frequenciesFR.get(freqFR[i]),new SimpleEntryClonable<Character,Character>(character,freqFR[i]));
+                i++;
             }
         });
 
-        //MapUtil.printFrequencies(buildKey);
-        System.out.println(decode(message,buildKey));
 
+        MapUtil.printFrequencies(buildKey);
+        String msg = decode(message,toKeyMap(buildKey));
+        int score = getConfidence(msg);
+        System.out.println("Start : "+ score + " # " + msg);
+        int newscore = 0;
+        TreeMap<Float,SimpleEntryClonable<Character,Character>> currentkey = buildKey;
+        Float minimumChange = 2f;
         //Score confidence
+        for(int j = 0 ; j < 5000 ; j++){
+
+            TreeMap<Float,SimpleEntryClonable<Character,Character>> newKey = swapKey(currentkey, minimumChange);
+            msg = decode(message,toKeyMap(newKey));
+            newscore = getConfidence(msg);
+
+
+            if(newscore > score){
+                currentkey = newKey;
+                score = newscore;
+            }
+
+            if((j % 1000) == 0) System.out.println("Best : "+score+" # "+ decode(message,toKeyMap(currentkey)));;
+
+        }
+
+
 
 
         return null;
     }
 
-    private Map<Character, Integer> getFrequencies(String message){
+    private Map<Character, Float> getFrequencies(String message){
         Map<Character, Integer> frequencies = new HashMap<>();
 
         for (int i = 0 ; i < message.length() ; i++){
@@ -48,9 +78,26 @@ public class MonoEncodedAttack {
             }
         }
 
-        return MapUtil.sortByValue(frequencies);
+        Map<Character, Float> frequenciesPercent = new HashMap<>();
+
+
+        frequencies.forEach(new BiConsumer<Character, Integer>() {
+            @Override
+            public void accept(Character character, Integer integer) {
+                frequenciesPercent.put(character, (new Float(integer)/message.length())*100);
+            }
+        });
+
+        return MapUtil.sortByValue(frequenciesPercent);
     }
 
+    private Map<Character, Character> toKeyMap(Map<Float,SimpleEntryClonable<Character,Character>> buildKey){
+        Map<Character, Character> key = new HashMap<>();
+        for(SimpleEntryClonable<Character, Character> el : buildKey.values()){
+            key.put(el.getKey(), el.getValue());
+        }
+        return key;
+    }
 
     private String toKey(Map<Character, Character> key){
         StringBuilder nkey = new StringBuilder();
@@ -76,6 +123,56 @@ public class MonoEncodedAttack {
             clearMsg.append(key.get(message.charAt(i)));
         }
         return clearMsg.toString();
+    }
+
+    private int getConfidence(String message){
+        Set<String> uniqueSet = new HashSet<String>(Arrays.asList(message.split(" ")));
+
+        int i = 0;
+        for(String word : uniqueSet){
+            if(dic.get(word) != null){
+                i++;
+            }
+        }
+        return i;
+    }
+
+    private TreeMap<Float,SimpleEntryClonable<Character,Character>> swapKey(TreeMap<Float,SimpleEntryClonable<Character,Character>> key, Float min){
+        TreeMap<Float,SimpleEntryClonable<Character,Character>> newKey = (TreeMap<Float,SimpleEntryClonable<Character,Character>>) key.clone();
+        int i = 0;
+        int rand = (int) Math.floor(Math.random() * (newKey.keySet().size()-1));
+        Float preceding = null;
+        Float following = null;
+        Float prepreceding = null;
+        SimpleEntryClonable<Character,Character> kb, ka;
+        for(Float f : newKey.descendingKeySet()){
+            if(i > rand){
+                following = f;
+                break;
+            }
+            prepreceding = preceding;
+            preceding = f;
+            i++;
+        }
+
+        if(Math.floor(Math.random() *2) == 1 && prepreceding != null){
+            preceding = prepreceding;
+            //System.out.println("sawppppppp");
+        }
+
+        if(Math.abs(preceding-following) < min){
+            ka = newKey.get(preceding);
+            kb = newKey.get(following);
+            Character ca = ka.getKey();
+            Character cb = ka.getValue();
+            Character cta = kb.getKey();
+            Character ctb = kb.getValue();
+            newKey.put(preceding, new SimpleEntryClonable<Character,Character>(ca,ctb));
+            newKey.put(following, new SimpleEntryClonable<Character,Character>(cta,cb));
+        }
+
+
+        return newKey;
     }
 
 }
