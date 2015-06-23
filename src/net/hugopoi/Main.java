@@ -13,9 +13,6 @@ public class Main {
         System.out.println(m.decode(s, key));
 
         MonoEncodedAttack att = new MonoEncodedAttack();
-        MonoDictionnary md = new MonoDictionnary();
-
-        printFrequencies(md.getLetter());
         att.findKey(s);
     }
 }
