@@ -1,4 +1,4 @@
-package net.hugopoi;
+package net.hugopoi.mono;
 
 /**
  * Created by hugo on 22/06/15.

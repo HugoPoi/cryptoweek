@@ -1,4 +1,8 @@
-package net.hugopoi;
+package net.hugopoi.mono;
+
+import net.hugopoi.utils.CipherTools;
+import net.hugopoi.utils.MapUtil;
+import net.hugopoi.utils.SimpleEntryClonable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -11,15 +15,13 @@ public class MonoEncodedAttack {
     Map<String, Float> dic = null;
 
     public MonoEncodedAttack() throws Exception{
-        dic = MonoDictionnary.getWord();
+        dic = CipherTools.getDictionnary();
     }
 
     public ArrayList<String> findKey(String message) throws Exception{
         Map<Character, Float> frequencies = getFrequencies(message);
-        //MapUtil.printFrequencies(frequencies);
-        //Get french frenquencies stats
 
-        Map<Character, Float> frequenciesFR = MonoDictionnary.getLetter();
+        Map<Character, Float> frequenciesFR = CipherTools.getLetterFrequencies();
         Character[] freqFR = new Character[frequenciesFR.size()];
         frequenciesFR.keySet().toArray(freqFR);
 
@@ -36,7 +38,7 @@ public class MonoEncodedAttack {
         });
 
 
-        MapUtil.printFrequencies(buildKey);
+        MapUtil.printMap(buildKey);
         String msg = decode(message,toKeyMap(buildKey));
         int score = getConfidence(msg);
         System.out.println("Start : "+ score + " # " + msg);

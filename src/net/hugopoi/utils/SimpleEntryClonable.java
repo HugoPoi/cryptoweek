@@ -1,6 +1,5 @@
-package net.hugopoi;
+package net.hugopoi.utils;
 
-import java.util.AbstractMap;
 import java.util.Map;
 
 /**
@@ -11,7 +10,7 @@ public class SimpleEntryClonable<K,V> implements Map.Entry<K,V>,Cloneable {
     K key;
     V value;
 
-    SimpleEntryClonable(K k, V v){
+    public SimpleEntryClonable(K k, V v){
         key = k;
         value = v;
     }

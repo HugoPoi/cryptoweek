@@ -1,7 +1,8 @@
-package net.hugopoi;
+package net.hugopoi.mono;
+
+import net.hugopoi.mono.ICipher;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by hugo on 22/06/15.

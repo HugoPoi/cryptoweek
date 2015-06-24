@@ -1,4 +1,4 @@
-package net.hugopoi;
+package net.hugopoi.utils;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -27,7 +27,7 @@ public class MapUtil {
             return result;
         }
 
-    public static <K, V> void printFrequencies(Map<K, V> frequencies){
+    public static <K, V> void printMap(Map<K, V> frequencies){
 
         frequencies.forEach(new BiConsumer<K, V>() {
             @Override
@@ -37,4 +37,5 @@ public class MapUtil {
         });
 
     }
+
 }

@@ -1,18 +1,19 @@
-package net.hugopoi;
+package net.hugopoi.utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import net.hugopoi.utils.MapUtil;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by jonathan on 23/06/15.
  */
-public class MonoDictionnary {
+public class CipherTools {
 
-    public static Map<String,Float> getWord () throws Exception {
+    public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + " .,;:\"'";
+
+    public static Map<String,Float> getDictionnary() throws IOException {
         Map<String, Float> listWord = new HashMap<>();
 
         File file = new File("listemot.txt");
@@ -26,7 +27,7 @@ public class MonoDictionnary {
         return MapUtil.sortByValue(listWord);
     }
 
-    public static Map<Character,Float> getLetter () throws Exception {
+    public static Map<Character,Float> getLetterFrequencies() throws IOException {
         Map<Character, Float> listLetter = new HashMap<>();
         File file = new File("freqFR2.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
