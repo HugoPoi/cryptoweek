@@ -19,9 +19,9 @@ public class MonoEncodedAttack {
     }
 
     public ArrayList<String> findKey(String message) throws Exception{
-        Map<Character, Float> frequencies = MapUtil.getFrequencies(message);
+        Map<Character, Float> frequencies = CipherTools.getFrequencies(message);
 
-        Map<Character, Float> frequenciesFR = CipherTools.getLetterFrequencies();
+        Map<Character, Float> frequenciesFR = CipherTools.getLetterFrequencies(CipherTools.alphabet);
         Character[] freqFR = new Character[frequenciesFR.size()];
         frequenciesFR.keySet().toArray(freqFR);
 

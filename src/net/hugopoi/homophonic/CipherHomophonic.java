@@ -19,7 +19,7 @@ public class CipherHomophonic implements ICipher{
             int symbolsLength = 256;
             DataOutputStream o = new DataOutputStream(new FileOutputStream(f));
 
-            Map<Character, Float> frequencies = CipherTools.getLetterFrequencies();
+            Map<Character, Float> frequencies = CipherTools.getLetterFrequencies(CipherTools.alphabet);
             Object[] freqs = frequencies.entrySet().toArray();
 
             int used = 0;

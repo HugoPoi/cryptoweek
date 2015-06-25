@@ -5,7 +5,7 @@ package net.hugopoi.polyphonic;
  */
 public class VigenereCipher {
 
-    public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\" + \" .,;:\"'";
+    public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + " .,;:\"'";
 
     String encode(String message, String key){
         StringBuilder crypterMsg = new StringBuilder();

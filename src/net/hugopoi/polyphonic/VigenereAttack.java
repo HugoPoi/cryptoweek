@@ -1,7 +1,9 @@
 package net.hugopoi.polyphonic;
 
+import net.hugopoi.utils.CipherTools;
 import net.hugopoi.utils.MapUtil;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -10,21 +12,38 @@ import java.util.function.BiFunction;
  */
 public class VigenereAttack {
 
+    Map<Character, Float> baseFrequencies;
+
+    public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //+ " .,;:\"'";
+
+    public VigenereAttack() throws IOException{
+        baseFrequencies = CipherTools.getLetterFrequencies(alphabet);
+    }
+
     public String findKey(String message){
         int keySize = findKeyLength(message);
         StringBuilder[] pieces = new StringBuilder[keySize];
 
         for (int i = 0, j = 0; i < message.length(); i++) {
+            if(pieces[j] == null) pieces[j] = new StringBuilder();
             pieces[j].append(message.charAt(i));
             if(++j > keySize-1){
                 j=0;
             }
         }
-        
+
+        StringBuilder key = new StringBuilder();
+        for (int i = 0; i < keySize; i++) {
+            key.append(mostProbableKey(pieces[i].toString(), alphabet));
+        }
 
 
+        return key.toString();
+    }
 
-        return null;
+    private char mostProbableKey(String cesar, String alphabet){
+        Map<Character, Float> freq = CipherTools.getFrequencies(cesar);
+        return alphabet.charAt(Math.abs(alphabet.indexOf(((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getKey()) - alphabet.indexOf(((Map.Entry<Character, Float>) baseFrequencies.entrySet().toArray()[0]).getKey())));
     }
 
     private int findKeyLength(String message){

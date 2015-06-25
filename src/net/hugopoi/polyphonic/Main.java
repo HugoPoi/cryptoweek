@@ -1,12 +1,14 @@
 package net.hugopoi.polyphonic;
 
+import java.io.IOException;
+
 /**
  * Created by hugo on 24/06/15.
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         System.out.println((new VigenereCipher()).encode("J ADORE ECOUTER LA RADIO TOUTE LA JOURNEE", "MUSIQUE"));
-        (new VigenereAttack()).findKey("KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUMBSVLPS" +
+        System.out.println((new VigenereAttack()).findKey("KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUMBSVLPS" +
                 "NCMUEKQCTESWREEKOYSSIWCTUAXYOTAPXPLWPNTCGOJBGFQHTDWXIZA" +
                 "YGFFNSXCSEYNCTSSPNTUJNYTGGWZGRWUUNEJUUQEAPYMEKQHUIDUXFP" +
                 "GUYTSMTFFSHNUOCZGMRUWEYTRGKMEEDCTVRECFBDJQCUSWVBPNLGOYL" +
@@ -16,6 +18,7 @@ public class Main {
                 "MPVSUDGAVEMNYMAMVLFMAOYFNTQCUAFVFJNXKLNEIWCWODCCULWRIFT" +
                 "WGMUSWOVMATNYBUHTCOCWFYTNMGYTQMKBBNLGFBTWOJFTWGNTEJKNEE" +
                 "DCLDHWTYYIDGMVRDGMPLSWGJLAGOEEKJOFEKUYTAANYTDWIYBNLNYNP" +
-                "WEBFNLFYNAJEBFR");
+                "WEBFNLFYNAJEBFR"));
+        System.out.println((new VigenereAttack()).findKey("cioqxivzovsgamzmgutvgwyxzdbohfufhsazuoseoakyrssskocltgsztitadhlljgghsmznqwzccsir".toUpperCase()));
     }
 }
