@@ -43,6 +43,7 @@ public class VigenereAttack {
 
     private char mostProbableKey(String cesar, String alphabet){
         Map<Character, Float> freq = CipherTools.getFrequencies(cesar);
+        System.out.println(((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getKey() + " , " + ((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getValue());
         return alphabet.charAt(Math.abs(alphabet.indexOf(((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getKey()) - alphabet.indexOf(((Map.Entry<Character, Float>) baseFrequencies.entrySet().toArray()[0]).getKey())));
     }
 
@@ -50,7 +51,7 @@ public class VigenereAttack {
         Map<String, Integer> words = new HashMap<>();
         Map<Integer, Integer> dividers = new HashMap<>();
 
-        for (int i = Math.round(message.length() / 2); i >= 2 ; i--) {
+        for (int i = Math.round(message.length() / 2); i >= 3 ; i--) {
             for (int j = 0; j < (message.length()-i); j++) {
                 String w = message.substring(j,i+j);
 

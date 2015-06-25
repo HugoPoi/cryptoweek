@@ -5,24 +5,33 @@ package net.hugopoi.polyphonic;
  */
 public class VigenereCipher {
 
-    public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + " .,;:\"'";
+    public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //+ " .,;:\"'";
 
     String encode(String message, String key){
+        return cypher(message,key, false);
+    }
+
+    String decode(String message, String key){
+        return cypher(message,key, true);
+    }
+
+    private String cypher(String message, String key, boolean decode){
         StringBuilder crypterMsg = new StringBuilder();
 
-        int posKey = 0;
-        for(int i = 0; i < message.length() ; i++){
-                int pos = (alphabet.indexOf(message.charAt(i)) + alphabet.indexOf(key.charAt(posKey)) ) % alphabet.length();
-                crypterMsg.append(alphabet.charAt(pos));
-                posKey++;
-                if(posKey == key.length()) {
-                    posKey = 0;
-                }
+        for(int i = 0, pos = 0, posKey = 0; i < message.length() ; i++){
+            if(decode){
+                pos = (alphabet.indexOf(message.charAt(i)) - alphabet.indexOf(key.charAt(posKey)) );
+                if(pos < 0) pos += alphabet.length();
+            }else{
+                pos = (alphabet.indexOf(message.charAt(i)) + alphabet.indexOf(key.charAt(posKey)) ) % alphabet.length();
+            }
+            crypterMsg.append(alphabet.charAt(pos));
+            posKey++;
+            if(posKey == key.length()) {
+                posKey = 0;
+            }
         }
         return crypterMsg.toString();
     }
 
-    String decode(String message, String key){
-        return null;
-    }
 }

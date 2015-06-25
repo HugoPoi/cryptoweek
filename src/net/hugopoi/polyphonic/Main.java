@@ -7,7 +7,6 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException{
-        System.out.println((new VigenereCipher()).encode("J ADORE ECOUTER LA RADIO TOUTE LA JOURNEE", "MUSIQUE"));
         System.out.println((new VigenereAttack()).findKey("KQOWEFVJPUJUUNUKGLMEKJINMWUXFQMKJBGWRLFNFGHUDWUUMBSVLPS" +
                 "NCMUEKQCTESWREEKOYSSIWCTUAXYOTAPXPLWPNTCGOJBGFQHTDWXIZA" +
                 "YGFFNSXCSEYNCTSSPNTUJNYTGGWZGRWUUNEJUUQEAPYMEKQHUIDUXFP" +
@@ -19,6 +18,12 @@ public class Main {
                 "WGMUSWOVMATNYBUHTCOCWFYTNMGYTQMKBBNLGFBTWOJFTWGNTEJKNEE" +
                 "DCLDHWTYYIDGMVRDGMPLSWGJLAGOEEKJOFEKUYTAANYTDWIYBNLNYNP" +
                 "WEBFNLFYNAJEBFR"));
-        System.out.println((new VigenereAttack()).findKey("cioqxivzovsgamzmgutvgwyxzdbohfufhsazuoseoakyrssskocltgsztitadhlljgghsmznqwzccsir".toUpperCase()));
+        VigenereAttack va = new VigenereAttack();
+        VigenereCipher vc = new VigenereCipher();
+        String message = "cioqpotgbjkftyyghakvfjkfsituhfufzyyghckdhmjssyjsjbotmlkftitavnjswuyglyyhrcqcbfuz".toUpperCase();
+        System.out.println(va.findKey(message));
+        System.out.println(vc.decode(message,va.findKey(message)));
+
+
     }
 }
