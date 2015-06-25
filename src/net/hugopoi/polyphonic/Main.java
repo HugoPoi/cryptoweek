@@ -22,11 +22,8 @@ public class Main {
         VigenereAttack va = new VigenereAttack();
         VigenereCipher vc = new VigenereCipher();
 
-        String crypttest = vc.encode(vc.decode(sample, "SCUBA"), "ABCEFGHIJ");
-
-        crypttest = "cioqpotgbjkftyyghakvfjkfsituhfufzyyghckdhmjssyjsjbotmlkftitavnjswuyglyyhrcqcbfuz".toUpperCase();
-        System.out.println(va.findKey(crypttest));
-        //System.out.println(vc.decode(message,va.findKey(message)));
+        System.out.println(va.findKey(sample));
+        System.out.println(vc.decode(sample,va.findKey(sample)));
 
 
     }
