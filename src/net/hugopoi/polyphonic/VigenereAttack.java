@@ -43,7 +43,7 @@ public class VigenereAttack {
 
     private char mostProbableKey(String cesar, String alphabet){
         Map<Character, Float> freq = CipherTools.getFrequencies(cesar);
-        System.out.println(((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getKey() + " , " + ((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getValue());
+        //System.out.println(((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getKey() + " , " + ((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getValue());
         return alphabet.charAt(Math.abs(alphabet.indexOf(((Map.Entry<Character, Float>) freq.entrySet().toArray()[0]).getKey()) - alphabet.indexOf(((Map.Entry<Character, Float>) baseFrequencies.entrySet().toArray()[0]).getKey())));
     }
 
@@ -51,29 +51,31 @@ public class VigenereAttack {
         Map<String, Integer> words = new HashMap<>();
         Map<Integer, Integer> dividers = new HashMap<>();
 
-        for (int i = Math.round(message.length() / 2); i >= 3 ; i--) {
+        for (int i = Math.round(message.length() / 2); i >= 2 ; i--) {
             for (int j = 0; j < (message.length()-i); j++) {
                 String w = message.substring(j,i+j);
 
-                int pos = message.indexOf(w,i+j);
-                if(pos != -1){
-                    //System.out.println(w+" found "+(pos-j));
-                    for(Integer div : dividers(pos-j)){
-                        dividers.compute(div, new BiFunction<Integer, Integer, Integer>() {
-                            @Override
-                            public Integer apply(Integer integer, Integer integer2) {
-                                if(integer2 == null){
-                                    return 1;
-                                }else{
-                                    return integer2+1;
-                                }
+                int pos=0;
+                ArrayList<Integer> ecarts = new ArrayList<>();
+                while((pos = message.indexOf(w,i+j+pos+w.length())) != -1){
+                    ecarts.add(pos-j);
+                }
+                if(ecarts.size() > 1){
+
+                    dividers.compute(PGCD(ecarts), new BiFunction<Integer, Integer, Integer>() {
+                        @Override
+                        public Integer apply(Integer integer, Integer integer2) {
+                            if(integer2 == null){
+                                return 1;
+                            }else{
+                                return integer2+1;
                             }
-                        });
-                    }
+                        }
+                    });
+
                 }
             }
         }
-
         return ((Map.Entry<Integer,Integer>) MapUtil.sortByValue(dividers).entrySet().toArray()[0]).getKey();
     }
 
@@ -85,5 +87,19 @@ public class VigenereAttack {
         }
 
         return ds;
+    }
+
+    private int PGCD(List<Integer> numbers){
+        int a = Math.max(numbers.get(0), numbers.get(1));
+        int b = Math.min(numbers.get(0), numbers.get(1));
+        int r;
+        do{
+            r = a % b;
+            if(r != 0){
+                a = b;
+                b = r;
+            }
+        }while(r != 0);
+        return b;
     }
 }

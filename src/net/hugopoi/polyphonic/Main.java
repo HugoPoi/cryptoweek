@@ -24,7 +24,7 @@ public class Main {
 
         String crypttest = vc.encode(vc.decode(sample, "SCUBA"), "ABCEFGHIJ");
 
-        //String message = "cioqpotgbjkftyyghakvfjkfsituhfufzyyghckdhmjssyjsjbotmlkftitavnjswuyglyyhrcqcbfuz".toUpperCase();
+        crypttest = "cioqpotgbjkftyyghakvfjkfsituhfufzyyghckdhmjssyjsjbotmlkftitavnjswuyglyyhrcqcbfuz".toUpperCase();
         System.out.println(va.findKey(crypttest));
         //System.out.println(vc.decode(message,va.findKey(message)));
 
