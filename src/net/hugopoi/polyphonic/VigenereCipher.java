@@ -14,7 +14,7 @@ public class VigenereCipher {
         for(int i = 0; i < message.length() ; i++){
 
             if(message.charAt(i) != ' '){
-                int pos = (alphabet.indexOf(message.charAt(i)) + alphabet.indexOf(key.charAt(posKey)) ) % 26;
+                int pos = (alphabet.indexOf(message.charAt(i)) + alphabet.indexOf(key.charAt(posKey)) ) % alphabet.length();
                 crypterMsg.append(alphabet.charAt(pos));
                 posKey++;
                 if(posKey == key.length()){
