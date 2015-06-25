@@ -1,4 +1,4 @@
-package net.hugopoi.homophonique;
+package net.hugopoi.homophonic;
 
 import java.io.File;
 
@@ -8,7 +8,7 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        CipherHomophonique homo = new CipherHomophonique();
+        CipherHomophonic homo = new CipherHomophonic();
         homo.generateKey(new File("key.bin"));
         homo.encode(new File("text.txt"), new File("key.bin"), new File("crypted1.bin"));
         homo.encode(new File("text.txt"), new File("key.bin"), new File("crypted2.bin"));

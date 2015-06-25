@@ -1,6 +1,5 @@
-package net.hugopoi.homophonique;
+package net.hugopoi.homophonic;
 
-import com.sun.xml.internal.ws.encoding.MtomCodec;
 import net.hugopoi.utils.CipherTools;
 import net.hugopoi.utils.ICipher;
 
@@ -8,18 +7,17 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by hugo on 23/06/15.
  */
-public class CipherHomophonique implements ICipher{
+public class CipherHomophonic implements ICipher{
 
     @Override
     public void generateKey(File f){
         try {
             int symbolsLength = 256;
-            OutputStream o = new FileOutputStream(f);
+            DataOutputStream o = new DataOutputStream(new FileOutputStream(f));
 
             Map<Character, Float> frequencies = CipherTools.getLetterFrequencies();
             Object[] freqs = frequencies.entrySet().toArray();
@@ -43,7 +41,7 @@ public class CipherHomophonique implements ICipher{
                     System.out.println();
                 }
 
-                o.write(symbols.size());
+                o.writeByte(symbols.size());
                 o.write(symbols.toByteArray());
 
             }
@@ -60,7 +58,7 @@ public class CipherHomophonique implements ICipher{
     @Override
     public void encode(File msg, File key, File output) {
         try {
-            FileOutputStream outputStream = new FileOutputStream(output);
+            DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(output));
             FileReader clearMessageStream = new FileReader(msg);
             Map<Character, ArrayList<Byte>> buildedKey = buildKey(key);
 
@@ -68,7 +66,7 @@ public class CipherHomophonique implements ICipher{
                 char c = (char) clearMessageStream.read();
                 ArrayList<Byte> symbols = buildedKey.get(c);
                 int randIndex = (int) Math.floor(Math.random() * symbols.size());
-                outputStream.write(symbols.get(randIndex));
+                outputStream.writeByte(symbols.get(randIndex));
             }
             outputStream.close();
             clearMessageStream.close();
@@ -80,12 +78,12 @@ public class CipherHomophonique implements ICipher{
     @Override
     public void decode(File msg, File key, File output) {
         try {
-            FileInputStream cryptedMessageStream = new FileInputStream(msg);
+            DataInputStream cryptedMessageStream = new DataInputStream(new FileInputStream(msg));
             FileWriter clearMessageStream = new FileWriter(output);
             Map<Byte, Character> buildedKey = buildKeyForDecode(key);
 
             while(cryptedMessageStream.available() > 0){
-                clearMessageStream.write(buildedKey.get((byte)cryptedMessageStream.read()));
+                clearMessageStream.write(buildedKey.get(cryptedMessageStream.readByte()));
             }
             clearMessageStream.close();
             clearMessageStream.close();
