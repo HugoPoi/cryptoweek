@@ -19,7 +19,7 @@ public class MonoEncodedAttack {
     }
 
     public ArrayList<String> findKey(String message) throws Exception{
-        Map<Character, Float> frequencies = getFrequencies(message);
+        Map<Character, Float> frequencies = MapUtil.getFrequencies(message);
 
         Map<Character, Float> frequenciesFR = CipherTools.getLetterFrequencies();
         Character[] freqFR = new Character[frequenciesFR.size()];
@@ -66,31 +66,6 @@ public class MonoEncodedAttack {
 
 
         return null;
-    }
-
-    private Map<Character, Float> getFrequencies(String message){
-        Map<Character, Integer> frequencies = new HashMap<>();
-
-        for (int i = 0 ; i < message.length() ; i++){
-            Integer c = frequencies.get(message.charAt(i));
-            if(c == null){
-                frequencies.put(message.charAt(i), 1);
-            }else{
-                frequencies.put(message.charAt(i), c+1);
-            }
-        }
-
-        Map<Character, Float> frequenciesPercent = new HashMap<>();
-
-
-        frequencies.forEach(new BiConsumer<Character, Integer>() {
-            @Override
-            public void accept(Character character, Integer integer) {
-                frequenciesPercent.put(character, (new Float(integer)/message.length())*100);
-            }
-        });
-
-        return MapUtil.sortByValue(frequenciesPercent);
     }
 
     private Map<Character, Character> toKeyMap(Map<Float,SimpleEntryClonable<Character,Character>> buildKey){

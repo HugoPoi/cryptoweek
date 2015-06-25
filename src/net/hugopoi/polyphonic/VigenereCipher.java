@@ -12,16 +12,12 @@ public class VigenereCipher {
 
         int posKey = 0;
         for(int i = 0; i < message.length() ; i++){
-
-
                 int pos = (alphabet.indexOf(message.charAt(i)) + alphabet.indexOf(key.charAt(posKey)) ) % alphabet.length();
                 crypterMsg.append(alphabet.charAt(pos));
                 posKey++;
                 if(posKey == key.length()) {
                     posKey = 0;
                 }
-
-
         }
         return crypterMsg.toString();
     }
