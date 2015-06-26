@@ -25,10 +25,10 @@ public class CipherTools {
             String[] parts =line.split("#");
             listWord.put(parts[0], Float.parseFloat(parts[1]));
         }
-        return MapUtil.sortByValue(listWord);
+        return MapUtil.sortByValue(listWord, true);
     }
 
-    public static Map<Character,Float> getLetterFrequencies(String alphabetFilter) throws IOException {
+    public static Map<Character,Float> getLetterFrequencies(String alphabetFilter, boolean reverse) throws IOException {
         Map<Character, Float> listLetter = new HashMap<>();
         File file = new File("freqFR2.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -39,7 +39,7 @@ public class CipherTools {
                 listLetter.put(parts[0].charAt(0), Float.parseFloat(parts[1]));
             }
         }
-        return MapUtil.sortByValue(listLetter);
+        return MapUtil.sortByValue(listLetter, reverse);
     }
 
     public static Map<Character, Float> getFrequencies(String message){
@@ -64,6 +64,6 @@ public class CipherTools {
             }
         });
 
-        return MapUtil.sortByValue(frequenciesPercent);
+        return MapUtil.sortByValue(frequenciesPercent, true);
     }
 }
