@@ -17,7 +17,7 @@ public class VigenereAttack {
     public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //+ " .,;:\"'";
 
     public VigenereAttack() throws IOException{
-        baseFrequencies = CipherTools.getLetterFrequencies(alphabet);
+        baseFrequencies = CipherTools.getLetterFrequencies(alphabet, true);
     }
 
     public String findKey(String message){
@@ -76,7 +76,7 @@ public class VigenereAttack {
                 }
             }
         }
-        return ((Map.Entry<Integer,Integer>) MapUtil.sortByValue(dividers).entrySet().toArray()[0]).getKey();
+        return ((Map.Entry<Integer,Integer>) MapUtil.sortByValue(dividers, true).entrySet().toArray()[0]).getKey();
     }
 
     private List<Integer> dividers(int number){

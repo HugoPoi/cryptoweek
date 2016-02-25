@@ -18,12 +18,11 @@ public class CipherTransposition {
         StringBuilder cryptedMsg = new StringBuilder();
         StringBuilder msgBuild = new StringBuilder(message);
 
-        for (int i = 0; i < (message.length() % key.size())+1; i++) {
+        for (int i = 0; i < (key.size()-(message.length() % key.size())); i++) {
             msgBuild.append('*');
         }
 
         String sizedMessage = msgBuild.toString();
-        System.out.println(sizedMessage.length());
 
         for (int i = 0, posKey = 0, posPiece = 0; i < sizedMessage.length(); i++) {
 

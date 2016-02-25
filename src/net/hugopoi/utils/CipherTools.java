@@ -14,7 +14,7 @@ public class CipherTools {
 
     public static final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + " .,;:\"'";
 
-    public static Map<String,Float> getDictionnary() throws IOException {
+    public static Map<String,Float> getDictionnary(int minSize) throws IOException {
         Map<String, Float> listWord = new HashMap<>();
 
         File file = new File("listemot.txt");
@@ -23,7 +23,9 @@ public class CipherTools {
         String line = null;
         while ((line = reader.readLine()) != null) {
             String[] parts =line.split("#");
-            listWord.put(parts[0], Float.parseFloat(parts[1]));
+            if(parts[0].length() >= minSize){
+                listWord.put(parts[0], Float.parseFloat(parts[1]));
+            }
         }
         return MapUtil.sortByValue(listWord, true);
     }

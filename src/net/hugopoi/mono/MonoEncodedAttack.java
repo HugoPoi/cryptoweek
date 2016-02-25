@@ -15,13 +15,13 @@ public class MonoEncodedAttack {
     Map<String, Float> dic = null;
 
     public MonoEncodedAttack() throws Exception{
-        dic = CipherTools.getDictionnary();
+        dic = CipherTools.getDictionnary(2);
     }
 
     public ArrayList<String> findKey(String message) throws Exception{
         Map<Character, Float> frequencies = CipherTools.getFrequencies(message);
 
-        Map<Character, Float> frequenciesFR = CipherTools.getLetterFrequencies(CipherTools.alphabet);
+        Map<Character, Float> frequenciesFR = CipherTools.getLetterFrequencies(CipherTools.alphabet, true);
         Character[] freqFR = new Character[frequenciesFR.size()];
         frequenciesFR.keySet().toArray(freqFR);
 
